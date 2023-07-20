@@ -13,9 +13,7 @@ import {
   ListItemIcon,
   Grid,
   Divider,
-  ListItemText,
 } from "@mui/material";
-import logo from "@assets/images/logo-stockband.png";
 import { makeStyles } from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -30,19 +28,17 @@ import common from "@utils/common";
 import { useMainStyles } from "@utils/styles/mainStyles";
 
 const useStyles = makeStyles({
-  navbarBg: {
-    background: "#40356f!important",
-  },
-  navbarLogoImg: {
-    height: 80,
+  appBar: {
+    position: "sticky",
   },
 
-  navbarItems: {
+  navbarRightSideItems: {
     marginLeft: "auto",
     color: "inherit",
   },
-  buttonItem: {
-    marginLeft: 5,
+  navbarLeftSideItems: {
+    marginLeft: 10,
+    color: "inherit",
   },
 
   drawerMain: {
@@ -51,6 +47,10 @@ const useStyles = makeStyles({
       width: 350,
       boxSizing: "border-box",
     },
+  },
+  drawerCancelButton: {
+    display: "flex",
+    justifyContent: "flex-end",
   },
 });
 
@@ -68,39 +68,61 @@ const Navbar = () => {
     setOpen(false);
   };
 
+  const mainDrawerListItems = [
+    {
+      icon: <Home />,
+      route: common.RouteUrls.Dashboard,
+      name: "Dashboard",
+    },
+    {
+      icon: <AccountTree />,
+      route: "",
+      name: "Projects",
+    },
+    {
+      icon: <MusicNote />,
+      route: "",
+      name: "Tracks",
+    },
+  ];
+
+  const footerDrawerListItems = [
+    {
+      icon: <ChatBubble />,
+      route: "",
+      name: "Give me feedback",
+    },
+  ];
+
+  const footerDrawerGridItems = [
+    { to: "", name: "About" },
+    { to: "", name: "Docs" },
+    { to: "", name: "Help" },
+    { to: "", name: "Status" },
+  ];
+
   return (
     <React.Fragment>
-      <AppBar className={classes.navbarBg} position="fixed">
+      <AppBar className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
+          <IconButton onClick={handleDrawerOpen} edge="start">
             <MenuIcon />
           </IconButton>
-          <Avatar src={logo}></Avatar>
-          <Typography>Dashboard</Typography>
 
-          <Box className={classes.navbarItems}>
-            <Avatar></Avatar>
+          <Box className={classes.navbarLeftSideItems}>
+            <Typography>Dashboard</Typography>
+          </Box>
+
+          <Box className={classes.navbarRightSideItems}>
+            <Avatar />
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawerMain}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
+
+      <Drawer className={classes.drawerMain} anchor="left" open={open}>
         <Grid container padding={2}>
-          <Grid item xs={6}>
-            <Box display={"flex"} justifyContent={"flex-start"}>
-              <Avatar src={logo} />
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display={"flex"} justifyContent={"flex-end"}>
+          <Grid item xs={12}>
+            <Box className={classes.drawerCancelButton}>
               <IconButton onClick={handleDrawerClose}>
                 <Cancel />
               </IconButton>
@@ -109,79 +131,58 @@ const Navbar = () => {
         </Grid>
 
         <Divider />
+
         <List>
-          <ListItem>
-            <ListItemButton>
-              <ListItemIcon>
-                <Home />
-              </ListItemIcon>
-              <Link
-                to={common.RouteUrls.Dashboard}
-                className={mainClasses.link}
-                onClick={handleDrawerClose}
-              >
-                Dashboard
-              </Link>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton>
-              <ListItemIcon>
-                <AccountTree />
-              </ListItemIcon>
-              <Link
-                to={common.RouteUrls.Dashboard}
-                className={mainClasses.link}
-                onClick={handleDrawerClose}
-              >
-                Projects
-              </Link>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton>
-              <ListItemIcon>
-                <MusicNote />
-              </ListItemIcon>
-              <Link
-                to={common.RouteUrls.Dashboard}
-                className={mainClasses.link}
-                onClick={handleDrawerClose}
-              >
-                Tracks
-              </Link>
-            </ListItemButton>
-          </ListItem>
+          {mainDrawerListItems.map((item, idx) => (
+            <ListItem>
+              <ListItemButton key={idx}>
+                <ListItemIcon key={idx}>{item.icon}</ListItemIcon>
+                <Link
+                  to={item.route}
+                  className={mainClasses.link}
+                  onClick={handleDrawerClose}
+                >
+                  {item.name}
+                </Link>
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
 
         <List style={{ marginTop: `auto` }}>
           <Divider />
-          <ListItem>
-            <ListItemButton>
-              <ListItemIcon>
-                <ChatBubble />
-              </ListItemIcon>
-              <ListItemText>Give me feedback</ListItemText>
-            </ListItemButton>
-          </ListItem>
+          {footerDrawerListItems.map((item, idx) => (
+            <ListItem>
+              <ListItemButton key={idx}>
+                <ListItemIcon key={idx}>{item.icon}</ListItemIcon>
+                <Link
+                  to={item.route}
+                  className={mainClasses.link}
+                  onClick={handleDrawerClose}
+                >
+                  {item.name}
+                </Link>
+              </ListItemButton>
+            </ListItem>
+          ))}
           <Divider />
         </List>
-        <Grid container padding={1} fontSize={"small"}>
+
+        <Grid container padding={1} fontSize={"small"} textAlign={"center"}>
+          {footerDrawerGridItems.map((item, idx) => (
+            <Grid item xs={3} key={idx}>
+              <Link to={item.to} className={mainClasses.link}>
+                {item.name}
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Grid container>
           <Grid item xs={12}>
-            <Typography variant="caption" color={"grey"}>
+            <Typography variant="caption" color={"grey"} marginLeft={1}>
               2023 &copy; Stockband Inc.
             </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Link to={""}>About</Link>
-          </Grid>
-          <Grid item xs={4}>
-            <Link to={""}>Docs</Link>
-          </Grid>
-          <Grid item xs={4}>
-            <Link to={""}>Status</Link>
           </Grid>
         </Grid>
       </Drawer>
