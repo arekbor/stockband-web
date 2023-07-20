@@ -6,35 +6,46 @@ import common from "@utils/common";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@components/Navbar";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import "./App.css";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 const App = () => {
   return (
     <React.Fragment>
-      <Routes>
-        {publicRoutes.map((route, idx) => (
-          <Route path={route.path} key={idx} element={route.component} />
-        ))}
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Routes>
+          {publicRoutes.map((route, idx) => (
+            <Route path={route.path} key={idx} element={route.component} />
+          ))}
 
-        {protectedRoutes.map((route, idx) => (
+          {protectedRoutes.map((route, idx) => (
+            <Route
+              path={route.path}
+              key={idx}
+              element={
+                <React.Fragment>
+                  <AuthProvider>
+                    <Navbar />
+                    {route.component}
+                  </AuthProvider>
+                </React.Fragment>
+              }
+            />
+          ))}
           <Route
-            path={route.path}
-            key={idx}
-            element={
-              <React.Fragment>
-                <AuthProvider>
-                  <Navbar />
-                  {route.component}
-                </AuthProvider>
-              </React.Fragment>
-            }
+            path="*"
+            element={<Navigate replace to={common.RouteUrls.NotFound} />}
           />
-        ))}
-        <Route
-          path="*"
-          element={<Navigate replace to={common.RouteUrls.NotFound} />}
-        />
-      </Routes>
-      <ToastContainer hideProgressBar={true} />
+        </Routes>
+        <ToastContainer hideProgressBar={true} />
+      </ThemeProvider>
     </React.Fragment>
   );
 };
