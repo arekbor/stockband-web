@@ -2,10 +2,10 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { protectedRoutes, publicRoutes } from "@utils/routes";
 import AuthProvider from "@components/AuthProvider";
-import Navbar from "@components/Navbar";
 import common from "@utils/common";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navbar from "@components/Navbar";
 
 const App = () => {
   return (
