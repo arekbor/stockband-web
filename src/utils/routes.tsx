@@ -2,8 +2,8 @@ import { Navigate } from "react-router-dom";
 import common from "@utils/common";
 import Login from "@pages/Auth/Login";
 import Logout from "@pages/Auth/Logout";
-import Dashboard from "@pages/Dashboard";
-import NotFound from "@pages/Utility/notFound";
+import Dashboard from "@pages/Main/Dashboard";
+import NotFound from "@pages/Utility/NotFound";
 
 const protectedRoutes = [
   { path: common.RouteUrls.Dashboard, component: <Dashboard /> },

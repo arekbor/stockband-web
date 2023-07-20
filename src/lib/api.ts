@@ -1,6 +1,6 @@
-import { errorToaster } from "@components/toasters";
 import store from "@lib/store";
 import common from "@utils/common";
+import { errorToaster } from "@utils/toasters";
 import axios, { AxiosError } from "axios";
 
 const api = axios.create({
