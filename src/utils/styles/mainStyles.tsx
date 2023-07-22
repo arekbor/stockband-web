@@ -13,4 +13,10 @@ export const useMainStyles = makeStyles({
     textOverflow: "ellipsis",
     width: "11rem",
   },
+  formBoxGrid: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 100,
+  },
 });
