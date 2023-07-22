@@ -5,4 +5,12 @@ export const useMainStyles = makeStyles({
     textDecoration: "none",
     color: "inherit",
   },
+  iconButtonWithoutBorderRadius: {
+    borderRadius: "0!important",
+  },
+  textHeading: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    width: "11rem",
+  },
 });
