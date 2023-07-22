@@ -1,18 +1,20 @@
 import { useUserLogin } from "@hooks/useUserLogin";
 import store from "@lib/store";
 import {
+  Avatar,
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
-  Container,
   FormGroup,
+  Grid,
   TextField,
   Typography,
 } from "@mui/material";
 import common from "@utils/common";
 import { LoginUserQuery } from "@utils/interfaces";
+import { useMainStyles } from "@utils/styles/mainStyles";
 import { Formik } from "formik";
 import React from "react";
 import { Navigate } from "react-router-dom";
@@ -24,6 +26,8 @@ const schema = Yup.object().shape({
 });
 
 const Login = () => {
+  const mainClasses = useMainStyles();
+
   const { isSuccess, data, mutate } = useUserLogin();
   const initialValues: LoginUserQuery = { email: "", password: "" };
 
@@ -54,13 +58,13 @@ const Login = () => {
             handleBlur,
             handleSubmit,
           }) => (
-            <Container>
-              <Card>
+            <Box className={mainClasses.formBoxGrid}>
+              <Card sx={{ width: 400 }}>
                 <form noValidate onSubmit={handleSubmit}>
-                  <CardHeader title={"Login"}></CardHeader>
                   <CardContent>
                     <FormGroup>
                       <TextField
+                        size="small"
                         type="email"
                         name="email"
                         onChange={handleChange}
@@ -76,6 +80,7 @@ const Login = () => {
                     </FormGroup>
                     <FormGroup>
                       <TextField
+                        size="small"
                         type="password"
                         name="password"
                         onChange={handleChange}
@@ -92,7 +97,7 @@ const Login = () => {
                   </CardContent>
                 </form>
               </Card>
-            </Container>
+            </Box>
           )}
         </Formik>
       </Box>

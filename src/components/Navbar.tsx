@@ -14,6 +14,7 @@ import {
   Grid,
   Divider,
   Theme,
+  MenuItem,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -25,6 +26,7 @@ import {
   ChatBubble,
   ExitToApp,
   Home,
+  LibraryAdd,
   MusicNote,
   Person,
   Settings,
@@ -32,6 +34,8 @@ import {
 import { Link } from "react-router-dom";
 import common from "@utils/common";
 import { useMainStyles } from "@utils/styles/mainStyles";
+
+import Menu from "@mui/material/Menu";
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
@@ -79,7 +83,37 @@ const Navbar = () => {
   const mainClasses = useMainStyles();
 
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(false);
+
+  const handleOpenLeftDrawer = () => {
+    setLeftDrawerOpen(true);
+  };
+
+  const handleCloseLeftDrawer = () => {
+    setLeftDrawerOpen(false);
+  };
+
   const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
+
+  const handleOpenRightDrawer = () => {
+    setRightDrawerOpen(true);
+  };
+
+  const handleCloseRightDrawer = () => {
+    setRightDrawerOpen(false);
+  };
+
+  const [anchorAddMenuSectionEl, setAnchorAddMenuSectionEl] =
+    useState<null | HTMLElement>(null);
+
+  const handleOpenAnchorAddMenuSectionEl = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setAnchorAddMenuSectionEl(e.currentTarget);
+  };
+
+  const handleCloseAnchorAddMenuSectionEl = () => {
+    setAnchorAddMenuSectionEl(null);
+  };
 
   const leftMainDrawerListItems = [
     {
@@ -132,16 +166,16 @@ const Navbar = () => {
     { to: "", name: "Status" },
   ];
 
+  const menuAddSectionItems = [
+    { icon: <MusicNote />, route: "", name: "New track" },
+    { icon: <LibraryAdd />, route: "", name: "New project" },
+  ];
+
   return (
     <React.Fragment>
       <AppBar className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            onClick={() => {
-              setLeftDrawerOpen(true);
-            }}
-            edge="start"
-          >
+          <IconButton onClick={handleOpenLeftDrawer} edge="start">
             <MenuIcon />
           </IconButton>
 
@@ -150,23 +184,45 @@ const Navbar = () => {
           </Box>
 
           <Box className={classes.navbarRightSideItems}>
-            <IconButton className={mainClasses.iconButtonWithoutBorderRadius}>
+            <IconButton
+              className={mainClasses.iconButtonWithoutBorderRadius}
+              onClick={handleOpenAnchorAddMenuSectionEl}
+            >
               <Add />
               <ArrowDropDown />
             </IconButton>
 
-            <IconButton onClick={() => setRightDrawerOpen(true)}>
+            <IconButton onClick={handleOpenRightDrawer}>
               <Avatar />
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
 
+      <Menu
+        id="add-section-menu"
+        anchorEl={anchorAddMenuSectionEl}
+        open={Boolean(anchorAddMenuSectionEl)}
+        onClose={handleCloseAnchorAddMenuSectionEl}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        {menuAddSectionItems.map((item, idx) => (
+          <MenuItem onClick={handleCloseAnchorAddMenuSectionEl} key={idx}>
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            {item.name}
+          </MenuItem>
+        ))}
+      </Menu>
+
       <Drawer className={classes.drawer} anchor="left" open={leftDrawerOpen}>
         <Grid container padding={2}>
           <Grid item xs={12}>
             <Box className={classes.drawerCancelButton}>
-              <IconButton onClick={() => setLeftDrawerOpen(false)}>
+              <IconButton onClick={handleCloseLeftDrawer}>
                 <Cancel />
               </IconButton>
             </Box>
@@ -183,7 +239,7 @@ const Navbar = () => {
                 <Link
                   to={item.route}
                   className={mainClasses.link}
-                  onClick={() => setLeftDrawerOpen(false)}
+                  onClick={handleCloseLeftDrawer}
                 >
                   {item.name}
                 </Link>
@@ -201,7 +257,7 @@ const Navbar = () => {
                 <Link
                   to={item.route}
                   className={mainClasses.link}
-                  onClick={() => setLeftDrawerOpen(false)}
+                  onClick={handleCloseLeftDrawer}
                 >
                   {item.name}
                 </Link>
@@ -217,7 +273,7 @@ const Navbar = () => {
               <Link
                 to={item.to}
                 className={mainClasses.link}
-                onClick={() => setLeftDrawerOpen(false)}
+                onClick={handleCloseLeftDrawer}
               >
                 {item.name}
               </Link>
@@ -248,7 +304,7 @@ const Navbar = () => {
           </Grid>
           <Grid item xs={6}>
             <Box className={classes.drawerCancelButton}>
-              <IconButton onClick={() => setRightDrawerOpen(false)}>
+              <IconButton onClick={handleCloseRightDrawer}>
                 <Cancel />
               </IconButton>
             </Box>
@@ -265,7 +321,7 @@ const Navbar = () => {
                 <Link
                   to={item.route}
                   className={mainClasses.link}
-                  onClick={() => setRightDrawerOpen(false)}
+                  onClick={handleCloseRightDrawer}
                 >
                   {item.name}
                 </Link>
