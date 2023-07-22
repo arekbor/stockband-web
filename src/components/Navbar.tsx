@@ -19,6 +19,8 @@ import { makeStyles } from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AccountTree,
+  Add,
+  ArrowDropDown,
   Cancel,
   ChatBubble,
   ExitToApp,
@@ -148,6 +150,11 @@ const Navbar = () => {
           </Box>
 
           <Box className={classes.navbarRightSideItems}>
+            <IconButton className={mainClasses.iconButtonWithoutBorderRadius}>
+              <Add />
+              <ArrowDropDown />
+            </IconButton>
+
             <IconButton onClick={() => setRightDrawerOpen(true)}>
               <Avatar />
             </IconButton>
@@ -233,7 +240,9 @@ const Navbar = () => {
             <Box className={classes.drawerAvatar}>
               <Avatar />
               <Box className={classes.drawerNickname}>
-                <Typography>Test nick</Typography>
+                <Typography noWrap className={mainClasses.textHeading}>
+                  Test nick
+                </Typography>
               </Box>
             </Box>
           </Grid>
