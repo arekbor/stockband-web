@@ -13,6 +13,7 @@ import {
   ListItemIcon,
   Grid,
   Divider,
+  Theme,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -30,7 +31,7 @@ import { Link } from "react-router-dom";
 import common from "@utils/common";
 import { useMainStyles } from "@utils/styles/mainStyles";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
     position: "sticky",
   },
@@ -47,8 +48,13 @@ const useStyles = makeStyles({
   drawer: {
     flexShrink: 0,
     "& .MuiDrawer-paper": {
-      width: 350,
       boxSizing: "border-box",
+      [theme.breakpoints.up("xs")]: {
+        width: "100%",
+      },
+      [theme.breakpoints.up("sm")]: {
+        width: 400,
+      },
     },
   },
   drawerCancelButton: {
@@ -64,7 +70,7 @@ const useStyles = makeStyles({
     marginTop: "auto",
     marginBottom: "auto",
   },
-});
+}));
 
 const Navbar = () => {
   const classes = useStyles();
